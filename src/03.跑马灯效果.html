@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跑马灯效果</title>
+
+    <script src="../lib/vue.js"></script>
+
+
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="浪起来" @click="lang">
+        <input type="button" value="低调" @click="stop">
+        <h3>{{ msg }}</h3>
+
+    </div>
+
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                msg:"猥琐发育，别浪～～！",
+                intervalId:null,
+            },
+            methods:{
+
+
+
+                lang() {
+                    // 判读定时器id是否为null，防止多次点击，产生多个定时器id
+                    if (this.intervalId != null) {
+                        return ;
+                    }
+
+
+                    this.intervalId = setInterval(() => {
+
+
+                        //    在vm实例中，如果想要获取data上的数据，或者想要调用methods中的方法，必须通过
+                        //this.数据属性名 或者this.方法名来进行访问，这里的this就表示new出来的实例对象
+                        console.log(this.msg);
+
+                        //获取到第一个文字
+                        var start = this.msg.substring(0,1);
+                        //获取到除第一个文字后面的内容
+                        var end = this.msg.substring(1);
+                        //拼接后重新赋值给msg
+                        this.msg = end + start;
+                        //vm会监听自己身上的data中的所有数据的变化，只要数据一发生改变，就会自动把最新的数据，从data上同步到页面
+
+                    },1000)
+
+
+                },
+
+                stop() {
+                    console.log("执行了清除定时器id");
+                    clearInterval(this.intervalId);
+                    // 每次清楚定时器id后，需要设置定时器id= null
+                    this.intervalId = null;
+
+                }
+
+
+
+            }
+
+        })
+    </script>
+</body>
+</html>

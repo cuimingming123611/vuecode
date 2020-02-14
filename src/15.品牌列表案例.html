@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>品牌列表案例</title>
+    <script src="../lib/vue.js"></script>
+    <script src="../lib/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../lib/bootstrap-3.3.7-dist/css/bootstrap.css">
+
+</head>
+<body>
+<div id="app">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加品牌</h3>
+        </div>
+        <div class="panel-body form-inline">
+            <label>
+                ID:<input type="text" class="form-control" v-model="id">
+            </label>
+            <label>
+                Name:<input type="text" class="form-control" v-model="name" @keyup.enter="add">
+            </label>
+            <input type="button" value="添加" class="btn btn-primary" @click="add()">
+            <label>
+                搜索：<input type="text" class="form-control" placeholder="请输入名称的关键词" v-model="keywords" v-focus v-color="'blue'">
+            </label>
+
+        </div>
+    </div>
+
+
+    <table class="table table-hover table-bordered table-striped">
+        <thead>
+        <tr>
+            <th v-run="'red'" >序号</th>
+            <th>名称</th>
+            <th>创建事件</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="item in search2(keywords)" :key="item.id">
+            <td v-cloak>{{item.id}}</td>
+            <td v-cloak>{{item.name}}</td>
+            <td v-cloak>{{item.ctime | dateFormat}}</td>
+            <td>
+                <a href="" @click.prevent="del(item.id)">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    //全局过滤器
+    Vue.filter('dateFormat',function (dateStr) {
+        var dt = new Date(dateStr);
+        var y = dt.getFullYear();
+        var m = (dt.getMonth()+1).toString().padStart(2,'0');
+        var d = dt.getDay().toString().padStart(2,'0');
+        var h = dt.getHours().toString().padStart(2,'0');
+        var mi = dt.getMinutes().toString().padStart(2,'0');
+        var s = dt.getSeconds().toString().padStart(2,'0');
+
+        return `${y}-${m}-${d} ${h}:${mi}:${s}`;
+    })
+
+
+    //可以自定义键盘修饰符
+    Vue.config.keyCodes.f2 = 112;
+
+
+    //自定义全局的指令
+    Vue.directive('focus',{
+
+        bind:function (el) { //每当指令绑定到元素上的时候，会立即执行bind函数，只执行一次；
+            //el:表示原生的DOM元素
+        },
+
+        inserted:function (el) {  //每当插入DOM中的时候，会执行inserted函数，只执行一次
+            el.focus();
+        },
+
+        update:function (el) {  //当window更新的时候，会执行update，可能会执行多次
+
+
+        }
+    })
+
+
+    Vue.directive('color',{
+        bind:function (el,binding) {
+            el.style.color =binding.value;
+        }
+    })
+
+
+    new Vue({
+        el: '#app',
+
+        data: {
+            id: '',
+            name: '',
+
+            keywords: '',
+
+            list: [
+                {id: 1, name: '奔驰', ctime: new Date()},
+                {id: 2, name: '宝马', ctime: new Date()},
+            ]
+        },
+
+        methods: {
+            add() {
+                if (this.id == '' | this.name == '') {
+                    alert("请填写相应的数据！")
+                } else {
+                    let car = {id: this.id, name: this.name, ctime: new Date()};
+                    this.list.push(car);
+                    this.id = this.name = '';
+                }
+
+            },
+            del(id) {
+                //1、如何根据id找到对应对象的索引
+                this.list.some((item, i) => {
+                    if (item.id == id) {
+                        //2、调用对象数组的splice的方法
+                        this.list.splice(i, 1);
+                        return true
+                    }
+                })
+            },
+            search(keywords) {
+                var newList = [];
+                this.list.forEach(item => {
+                    if (item.name.indexOf(keywords) != -1) {
+                        newList.push(item);
+                    }
+                })
+                return newList;
+            },
+            search2(keywords){
+                return this.list.filter(item =>{
+                   if (item.name.includes(keywords)){
+                       return item;
+                   }
+                })
+
+            }
+
+        },
+
+        //局部过滤器
+        filters:{
+            dataFormat:function (deteStr) {
+                return deteStr;
+
+            }
+        },
+
+        directives:{
+
+            // 自定义局部的指令
+            'run':{
+                bind:function(el,banding) {
+                    el.style.color = banding.value;
+
+                }
+            },
+
+
+        }
+    })
+</script>
+</body>
+</html>

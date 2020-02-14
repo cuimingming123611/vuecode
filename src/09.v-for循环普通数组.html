@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-for循环普通数组</title>
+    <script src="../lib/vue.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <p>不带索引值的循环:</p>
+    <p v-for="item in list" v-cloak>{{item}}</p>
+    <p>带索引值的循环：</p>
+    <p v-for="(item,i) in list" v-cloak>索引值为：{{i}} , 数值为：{{item}}</p>
+</div>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            list:[1,2,3,4,5,6],
+        },
+        methods:{
+
+        }
+    })
+</script>
+</body>
+</html>

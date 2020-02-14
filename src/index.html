@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue学习</title>
+    <!--1、引入vue.js文件-->
+    <script src="../lib/vue.min.js"></script>
+
+</head>
+<body>
+
+    <!--MVVM中的V层-->
+
+    <!--将来new 的vue实例会控制这个元素中的所有内容-->
+    <div id="app">
+        <p>{{ msg }}</p>
+    </div>
+
+
+    <script>
+        //MVVM中的VM层
+
+        // 2、创建vue的实例
+        var vm = new Vue({
+            el: '#app',   //表示当前我们new的这个vue实例要控制页面上的那个区域
+
+            //data中的数据为MVVM中的M层
+            data:{        //data属性中，存放的是el中要用到的数据
+                msg:'欢迎来学习vue'  //通过vue提供的指令，很方便的就能吧数据渲染到页面上
+
+            }
+        })
+    </script>
+</body>
+</html>

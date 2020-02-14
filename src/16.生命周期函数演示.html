@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>生命周期函数演示</title>
+    <!--<script src="../lib/bootstrap-3.3.7-dist/js/bootstrap.js"></script>-->
+    <script src="../lib/vue.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <p v-cloak id="p">{{msg}}</p>
+    <input type="button" value="修改" @click="updateInfo">
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            msg: 'ok',
+        },
+        methods: {
+            show() {
+                console.log('执行了show方法')
+            },
+            updateInfo(){
+                this.msg = '这是我修改以后的信息：no！';
+            }
+        },
+
+        //组件创建阶段的函数
+
+        beforeCreate() { //表示实例完全创建之前，会执行它的方法
+            //在beforeCreate 生命周期函数执行的时候，data和methods中的数据还没有初始化
+
+        },
+        created() { //表示vue实例对象已经初始化好了
+            //如果要调用methods中的方法，操作data中的数据，最早只能在created中操作
+            console.log(this.msg);
+            this.show();
+
+        },
+        beforeMount(){  //表示模版已经在内存中创建好，但是还未把模板渲染到页面中去
+            console.log(document.getElementById('p').innerText);  //输出 {{ msg }}
+            //在beforeMount 执行的时候，页面中的元素，还没有被真正替换过来，只是之前写的一些模板字符串
+        },
+        mounted(){ //表示内存中的模板已经真实的挂载到页面中，用户已经可以看到渲染好的页面
+
+            console.log(document.getElementById('p').innerText);  //输出ok
+
+            //mounted 是实例创建期间最后一个生命周期函数，当执行完成 mounted就表示，实例已经被创建好了，
+            //此时，如果没有其它操作时，这个实例，就在内存中不动
+
+            //如果需要通过其它插件操作页面DOM结构，最早要在mounted中进行
+
+            //执行完了mounted，组件已经脱离了创建阶段，进入了执行阶段
+
+        },
+
+        //组件执行阶段的函数
+        beforeUpdate(){  //表示界面上还没有更新，但是data中的数据已经被更新
+            console.log("页面中元素的值为："+document.getElementById('p').innerText);
+            console.log("data中的数据为："+ this.msg);
+        },
+
+        updated(){  //表示页面上的数据和data中的数据已经更新同步
+            console.log("页面中元素的值为："+document.getElementById('p').innerText);
+            console.log("data中的数据为："+ this.msg);
+        },
+
+        //组件销毁阶段
+        beforeDestroy(){  //当执行beforeDestroy钩子函数的时候，实例上的所有data和所有methods，以及过滤器、指令...都处于可用状态，此时还没有真正执行销毁的过程
+
+        },
+        destroyed(){  //当执行destroyed钩子函数时，所有的数据、方法、指令...都不可用了
+
+        }
+
+    })
+</script>
+</body>
+</html>

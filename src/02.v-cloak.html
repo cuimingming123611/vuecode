@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:b-bind="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml"
+      xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>v-cloak的使用</title>
+
+    <style>
+        /*为v-cloak设置隐藏的属性*/
+        [v-cloak]{
+            display: none;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div id="app">
+        <!--使用v-cloak指令，解决页面加载时闪烁{{}}的情况-->
+        <p v-cloak>{{msg}}</p>
+
+        <!--v-text不需要设置样式，也不会出现闪烁的情况-->
+        <h4 v-text="msg"></h4>
+
+        <!--v-html可以输出html代码-->
+        <div v-html="msg2"></div>
+
+        <!--b-bind：是vue中提供的用于绑定属性的指令-->
+        <input type="button" v-bind:value="my_title" >
+        <input type="button" v-bind:value="my_title+' |这部分是我自己加的内容'" >
+        <input type="button" :value="my_title">
+        <br>
+
+        <!--v-on:是vue提供的用于触发事件的指令-->
+        <input type="button" value="输出一段话" v-on:click="show">
+        <!--可以使用 @ 代替 v-on -->
+        <input type="button" value="输出一段话" @click="show">
+
+
+    </div>
+
+    <script src="../lib/vue.js"></script>
+
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                msg:'v-cloak的使用',
+                msg2:'<h1>我是一级标题，我最大，我骄傲</h1>',
+                my_title:'这是我自定义的标题'
+            },
+            methods:{
+                show:function () {
+                    alert("我是v-on触发的点击事件");
+
+                }
+            }
+        })
+    </script>
+</body>
+</html>
