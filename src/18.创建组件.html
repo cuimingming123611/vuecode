@@ -10,11 +10,28 @@
     <div id="app">
         <!--如果要使用创建的组件，直接把组件的名称，以HTML标签的形式引入到页面中-->
         <my-com></my-com>
+        <my-com1></my-com1>
+        <my-com2></my-com2>
+        <my-com3></my-com3>
+        <my-com4></my-com4>
 
     </div>
 
+
+    <!--在#app的外面定义组件的模板-->
+    <template id="tmp1">
+        <div>  <!--需要包含一个根元素-->
+            <h1>这是用template在外部定义的模板</h1>
+            <h3>是比较常用和好用的方式!</h3>
+            <p>非常<strong>不错</strong></p>
+        </div>
+
+    </template>
+
     <script>
         //1.1 使用Vue.extend   创建全局的vue组件
+
+        //方式一：
        var com =  Vue.extend({
             template:'<h3>这是使用Vue.extend 创建的组件</h3>',   //通过 template 属性，指定了组件要展示的HTML结构
 
@@ -26,6 +43,31 @@
 
         //如果不使用 驼峰法，则可以按照定义的名称使用即可
        Vue.component('myCom',com);
+
+
+       //方式二：
+        Vue.component('myCom1',Vue.extend({
+                template:'<h3>这是使用Vue.extend 创建的组件</h3>',
+
+            })
+        );
+
+        //方式三：
+        Vue.component('myCom2',{
+            template:'<h3>这是直接使用Vue.component创建的组件模板</h3>'
+        });
+
+        //注意：不论是那种方式创建的组件模板，组件中的template属性指向的模板内容，必须有且只有一个根元素
+        Vue.component('myCom3',{
+            template:"<div><h3>标题是包含在div里面的  <span>而<b>span</b>标签是包含在h3内的</span></h3></div>"
+        });
+
+        Vue.component('myCom4',{
+            template:'#tmp1',
+        })
+
+
+
 
        new Vue({
            el:'#app',
