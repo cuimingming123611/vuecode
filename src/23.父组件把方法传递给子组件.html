@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>父组件把方法传递给子组件</title>
+    <script src="../lib/vue.js"></script>
+
+</head>
+<body>
+    <div id="app">
+
+        <!--通过v-on绑定一个事件，事件名可以自定义，事件的方法为 父组件的属性方法-->
+        <!--事件绑定机制-->
+        <mycon v-on:func="show"></mycon>
+    </div>
+
+    <template id="mycon">
+        <div>
+            <p>这是子组件
+                <input type="button" value="调用父组件的show方法" @click="myclick">
+            </p>
+
+        </div>
+    </template>
+
+
+    <script>
+
+
+
+        new Vue({
+            el:'#app',
+            data:{
+
+            },
+            methods:{
+                //可以向方法传参
+                show(data){
+                    console.log('调用了父组件中的show方法:'+data)
+                }
+
+            },
+            components:{
+                mycon:{
+                    template:'#mycon',
+                    methods: {
+                        /*
+                        * 给模板定义方法
+                        * 模板方法中可以通过this.$emit调用父组件传递的方法
+                        * */
+                        myclick(){
+                            //如果父组件中的方法需要传参，则子组件在调用时也需要传参数，在自定义方法名后面加上相应数量的实参
+                            this.$emit('func','传递的参数为5');
+                        }
+                    }
+                },
+
+            }
+        })
+    </script>
+
+</body>
+</html>
