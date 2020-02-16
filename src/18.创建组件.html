@@ -16,6 +16,9 @@
         <my-com4></my-com4>
 
     </div>
+    <div id="app2">
+        <login></login>
+    </div>
 
 
     <!--在#app的外面定义组件的模板-->
@@ -27,6 +30,16 @@
         </div>
 
     </template>
+
+    <template id="tmp2">
+        <div>  <!--需要包含一个根元素-->
+            <h1>这是用template在外部定义私有化的模板</h1>
+            <h3>是比较常用和好用的方式!</h3>
+            <p>非常<strong>不错</strong></p>
+        </div>
+
+    </template>
+
 
     <script>
         //1.1 使用Vue.extend   创建全局的vue组件
@@ -77,7 +90,31 @@
            methods:{
 
            }
-       })
+       });
+        new Vue({
+            el:'#app2',
+            data:{},
+            methods: {},
+            filters: {},
+            directives:{},
+            components:{
+                login:{
+                    template:'#tmp2'
+                }
+            },
+
+
+            beforeCreate() {},
+            created(){},
+            beforeMount(){},
+            mounted(){},
+            beforeUpdate() {},
+            updated(){},
+            beforeDestroy() {},
+            destroyed(){},
+
+
+        })
 
     </script>
 </body>
