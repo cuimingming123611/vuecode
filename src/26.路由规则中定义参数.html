@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路由规则中定义参数</title>
+    <script src="../lib/vue.js"></script>
+    <script src="../lib/vue-router.js"></script>
+    <script src="../lib/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../lib/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <!--
+        <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    -->
+
+</head>
+<body>
+    <div id="app">
+        <router-link to="/login?user=张三&password=123456" tag="span">登录</router-link>
+        <router-link to="/register" tag="span">注册</router-link>
+        <router-view></router-view>
+    </div>
+    <style>
+        .myLink{
+            color: #eea236;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+
+    <template id="login">
+        <div class="col-lg-12">
+            <div class="form-group ">
+                <p class="col-lg-1">user:</p>
+                <input type="text" placeholder="请输入用户名" class="form-control col-lg-11" v-model="$route.query.user" >
+            </div>
+            <div class="form-group ">
+                <p class="col-lg-1">password:</p>
+                <input type="text" placeholder="请输入密码" class=" form-control col-lg-11" v-model="$route.query.password">
+            </div>
+            <div class="form-group">
+                <input type="button" value="确定" class="col-lg-12 btn btn-primary">
+            </div>
+
+
+
+
+        </div>
+
+    </template>
+
+
+    <script>
+        var login = {
+            template:'#login',
+            data(){
+                return {
+                    user:'张三',
+                    password:123456
+                }
+            },
+            created(){
+                console.log(this.$route.query.user + ' ' + this.$route.query.password)
+            }
+        };
+        var register = {
+            template: '<h1>注册组件</h1>'
+        };
+
+
+        var routerObj = new VueRouter({
+            routes:[
+                {
+                    path:'/',
+                    redirect:'/login'
+                },
+                {
+                    path:'/login',
+                    component:login,
+                },
+                {
+                    path: '/register',
+                    component: register,
+                }
+            ],
+            linkActiveClass:'myLink',
+        });
+
+        new  Vue({
+            el:'#app',
+            data:{},
+            methods:{},
+            components:{
+                login,
+                register
+
+            },
+            router:routerObj,
+        })
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路由的基本使用</title>
+    <script src="../lib/vue.js"></script>
+
+    <!--引入路由模块-->
+<!--
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+-->
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+
+</head>
+<body>
+ <div id="app">
+     <router-link to="/login">登录</router-link>
+     <router-link to="/register">注册</router-link>
+    <router-view></router-view>
+ </div>
+
+ <script>
+
+     // 1、创建一个路由对象,当导入vue-router之后，在window全局对象中，就有了一个路由的构造函数 VueRouter
+     var login = {
+         template:'<h3>登录组件</h3>',
+     };
+     var register = {
+         template: '<h3>注册组件</h3>',
+     };
+
+     //2、创建路由对象
+
+     var routerObj = new VueRouter({
+         routes:[  //路由匹配规则
+             {
+                 path:'/',
+                 redirect:'/login',    //重定义路径
+             },
+             {
+                 path:'/login',
+                 component:login,
+             },
+             {
+                 path: '/register',
+                 component:register,
+             }
+         ],
+         linkActiveClass:'myclass',  //定义路由的class名称
+     });
+
+
+     //
+
+     new Vue({
+         el:'#app',
+         data:{
+
+         },
+         methods:{
+
+         },
+         components:{
+             login,
+             register,
+         },
+         //将路由规则对象，注册到vue实例中，监听url地址的变化
+         router:routerObj,
+     })
+ </script>
+
+</body>
+</html>
