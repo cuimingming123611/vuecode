@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路由命名视图实现经典布局</title>
+    <script src="../lib/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="../lib/vue.js"></script>
+    <script src="../lib/vue-router.js"></script>
+    <link rel="stylesheet" href="../lib/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <style>
+        .container{
+            margin: 0;
+            padding: 0;
+        }
+        .panel{
+            margin: 0;
+            padding: 0;
+            background-color: #2b669a;
+        }
+        #header .container,
+        #footarea .container{
+            height: 80px;
+        }
+        #leftarea .panel{
+            background-color: #eea236;
+            color: white;
+            height: 1000px;
+        }
+        #mainarea .panel{
+            background-color: #5e5e5e;
+            color: white;
+            height: 1000px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <router-view></router-view>
+    <router-view name="leftarea"></router-view>
+    <router-view name="mainarea"></router-view>
+    <router-view name="footarea"></router-view>
+
+</div>
+
+<template id="header">
+    <div class="container col-sm-12" id="headerarea">
+        <div class="panel panel-default">
+            <div class="panel-title text-center">
+                <h3>头部内容</h3>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="left_area">
+    <div class="container col-sm-4" id="leftarea">
+        <div class="panel panel-default">
+            <div class="panel-body text-center">
+                <h3>左侧的区域</h3>
+            </div>
+        </div>
+    </div>
+
+</template>
+<template id="main_area">
+    <div class="container col-sm-8" id="mainarea">
+        <div class="panel panel-default">
+            <div class="panel-body text-center">
+                <h3>主要区域</h3>
+            </div>
+        </div>
+    </div>
+</template>
+<template id="foot_area">
+    <div class="container col-sm-12" id="footarea">
+        <div class="panel panel-default">
+            <div class="panel-title text-center">
+                <h3>底部区域</h3>
+            </div>
+        </div>
+    </div>
+
+</template>
+
+<script>
+    var header = {
+        template:'#header',
+    };
+    var leftarea = {
+        template:'#left_area',
+    };
+    var mainarea = {
+        template:'#main_area',
+    };
+    var footarea = {
+        template:'#foot_area',
+    }
+    var router = new VueRouter({
+        routes: [
+            {
+                path:'/',
+                components:
+                    {
+                        'default':header,
+                        'leftarea':leftarea,
+                        'mainarea':mainarea,
+                        'footarea':footarea,
+                    }
+
+            }
+        ]
+    })
+    new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        components:{
+        },
+        router:router,
+    })
+</script>
+
+</body>
+</html>
