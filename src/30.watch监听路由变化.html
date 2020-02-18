@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>路由的嵌套</title>
+    <script src="../lib/vue.js"></script>
+    <script src="../node_modules/_vue-router@3.1.5@vue-router/dist/vue-router.js"></script>
+    <script src="../lib/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../lib/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <style>
+        .mylink{
+            background-color: #2e6da4;
+            color: white;
+        }
+    </style>
+
+</head>
+<body>
+<div id="app">
+
+    <div class="container  text-center">
+        <h2>小崔VUE代码管理平台</h2>
+        <div class="row">
+            <div class="panel ">
+                <div class="panel-title">
+
+                </div>
+            </div>
+            <div class="panel-body ">
+                <router-link to="/account/login" v-if="this.flag" @click.native="showOrHid"> 我要进去看看</router-link>
+                <div>
+                    <router-view v-show="!this.flag" v-on:func="showOrHid"></router-view>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<template id="account">
+    <div class="panel panel-primary  col-sm-8 col-sm-offset-2">
+        <div class="panel panel-title">
+            <div class="btn btn-group-justified">
+                <router-link to="/account/login"  tag="a" class="btn btn-default ">登录</router-link>
+                <router-link to="/account/register" tag="a" class="btn btn-default">注册</router-link>
+            </div>
+        </div>
+        <div class="panel panel-body">
+            <router-view ></router-view>
+            <div class="text-center">
+                <p @click="myreturn">->返回</p>
+            </div>
+        </div>
+
+
+    </div>
+</template>
+
+<template id="login">
+
+            <form  class="form-horizontal " role="form">
+                <div class="form-group ">
+                    <p class=" control-label col-sm-2">账号:</p>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control " placeholder="请输入用户名">
+                    </div>
+
+                </div>
+                <div class="form-group ">
+                    <p class="col-sm-2 control-label">密码:</p>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="请输入密码">
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12 ">
+                        <button type="button" class="btn btn-block btn-primary">登录</button>
+                    </div>
+                </div>
+            </form>
+
+</template>
+
+
+<template id="register">
+
+            <form  class="form-horizontal" role="form">
+                <div class="form-group ">
+                    <p class="control-label col-sm-2">注册账号:</p>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="请输入用户名">
+                    </div>
+
+                </div>
+                <div class="form-group ">
+                    <p class="control-label col-sm-2">注册密码:</p>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="请输入密码">
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12 ">
+                        <button type="button" class="btn btn-primary btn-block">注册</button>
+                    </div>
+                </div>
+            </form>
+</template>
+
+
+
+<script>
+    var account = {
+        template:'#account',
+        methods:{
+            myreturn(){
+                this.$emit('func');
+            }
+        }
+
+
+    };
+    var login = {
+        template: '#login',
+    };
+    var register = {
+        template:'#register'
+    }
+    var router = new VueRouter({
+        routes: [
+            {
+                path:'/',
+                direction:account,
+            },
+            {
+                path:'/account',
+                component:account,
+                children:[
+                    {
+                        path:'login',
+                        component:login,
+                    },
+                    {
+                        path:'register',
+                        component:register
+                    }
+                ],
+                linkActiveClass:'mylink'
+            },
+        ],
+
+
+    });
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            flag:true,
+        },
+        methods: {
+            showOrHid(){
+                console.log('执行了方法showOrHid');
+                this.flag = !this.flag;
+            }
+
+        },
+        components: {
+            account,
+            login,
+            register
+
+        },
+        router:router,
+        watch:{
+            '$route.path':function (newVal,oldVal) {
+
+                console.log('方法执行了'+newVal + ' ---- '+ oldVal);
+
+            }
+        }
+    })
+</script>
+
+
+</body>
+</html>
